@@ -1,7 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,15 +15,18 @@ public class Boletos {
     private Cine cine;
     private Pelicula pelicula;
     private String horario;
-    private Asientos pantallaSeleccionAsientos;
-    private Label lblAsientosR;
+    private Stage stage;
+    private Sala sala1;
 
-    public Boletos(Cine cine, Pelicula pelicula, String horario) {
+    public Boletos(Cine cine, Pelicula pelicula, String horario, Sala sala1) {
         this.cine = cine;
         this.pelicula = pelicula;
         this.horario = horario;
-        this.pantallaSeleccionAsientos = new Asientos(cine, horario, 0);
-        this.lblAsientosR = new Label();
+        this.sala1 = sala1;
+    }
+
+    public Stage getStage(){
+        return stage;
     }
             //Metodo que muestra la interfáz de los boletos, donde aparecen los labels y botones.
     public void mostrar() {
@@ -33,7 +35,7 @@ public class Boletos {
 
         VBox layout = new VBox(10);
 
-        Label lblInformacion = new Label("Pelicula: " + pelicula.getNombre() + "\nHorario: " + horario);
+        Label lblInformacion = new Label("Pelicula: " + pelicula.getNombre() + "\nHorario: " + horario + "\nSala: " + sala1.getNumeroSala());
 
         Label lblCantidadBoletos = new Label("Cantidad de Boletos:");
         TextField txtCantidadBoletos = new TextField();
@@ -44,10 +46,12 @@ public class Boletos {
         Button btnCalcularPrecio = new Button("Calcular Precio");
         btnCalcularPrecio.setOnAction(e -> calcularPrecio(txtCantidadBoletos.getText(), lblPrecioTotal));
 
-        Button btnComprarBoletos = new Button("Comprar");
-        btnComprarBoletos.setOnAction(e -> comprarBoleto(txtCantidadBoletos.getText()));
+        Button btnSeleccionAsientos = new Button("Ir a seleccionar asientos");
+        btnSeleccionAsientos.setOnAction(e -> {seleccionarAsientos(txtCantidadBoletos.getText());
+        stage.close();
+        });
 
-        layout.getChildren().addAll(lblInformacion, lblCantidadBoletos, txtCantidadBoletos, lblPrecioTotal, btnCalcularPrecio, btnComprarBoletos, lblAsientosR);
+        layout.getChildren().addAll(lblInformacion, lblCantidadBoletos, txtCantidadBoletos, lblPrecioTotal, btnCalcularPrecio, btnSeleccionAsientos);
 
         Scene scene = new Scene(layout, 1000, 500);
         stage.setScene(scene);
@@ -78,7 +82,7 @@ public class Boletos {
             System.out.println("Por favor, ingresa un número válido para la cantidad de boletos.");
         }
     }       //Metodo que se utiliza para llamar al metodo mostrarAsientos de la clase Cine, el cual está conectado con un metodo de la clase Asientos.
-    private void comprarBoleto(String cantidadBoletos){
+    private void seleccionarAsientos(String cantidadBoletos){
         try{
             int cantidad = Integer.parseInt(cantidadBoletos);
 
@@ -91,18 +95,7 @@ public class Boletos {
                 return;
             }
 
-            cine.mostrarAsientos(horario, cantidad);
-
-
-            //OPERACIÓN SIN TERMINAR | Se requiere que muestre los asientos escogidos en el interfáz. Aún no lo hace la basofia
-            Set<String> asientosReservados = pantallaSeleccionAsientos.getAsientosReservados();
-
-            lblAsientosR.setText("Asientos reservados: " + String.join(", ", new ArrayList<>(asientosReservados)));
-
-
-
-            System.out.println("Asientos reservados: " + String.join(", ", new ArrayList<>(asientosReservados)));
-
+            cine.mostrarAsientos(pelicula, horario, sala1, cantidad);
 
             
         } catch (NumberFormatException e) {
@@ -113,5 +106,8 @@ public class Boletos {
             alert.showAndWait();
         }
     }
+
+
+
 
 }

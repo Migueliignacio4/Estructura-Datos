@@ -1,6 +1,7 @@
 package com.example;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -13,14 +14,20 @@ import java.util.Set;
 public class Asientos {
 
     private String horario;
+    private Pelicula pelicula;
+    private Sala sala1;
     private int cantidadBoletos;
     private Set<String> asientosReservados;
     private int asientosReservadosCount;
     private List<String> asientosR;
+    private Cine cine;
 
-    public Asientos(Cine cine, String horario, int cantidadBoletos) {
+    public Asientos(Cine cine, Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos) {
         this.horario = horario;
+        this.pelicula = pelicula;
+        this.sala1 = sala1;
         this.cantidadBoletos = cantidadBoletos;
+        this.cine = cine;
         this.asientosReservados = new HashSet<>();
         this.asientosReservadosCount = 0;
         this.asientosR = new ArrayList<>();
@@ -43,6 +50,12 @@ public class Asientos {
             }
         }
 
+        Button btnIrAComprar = new Button("Ir a comprar");
+        btnIrAComprar.setOnAction(e -> {irAComprar(pelicula, horario, sala1, cantidadBoletos);
+        stage.close();
+        });
+        gridPane.add(btnIrAComprar, 0, 6);
+
         Scene scene = new Scene(gridPane, 400, 400);
         stage.setScene(scene);
         stage.show();
@@ -63,7 +76,11 @@ public class Asientos {
 
                 // Esto sirve para cerrar la ventana una vez se hayan escogido todos los asientos.
                 if (asientosReservadosCount == cantidadBoletos) {
-                    stage.close();
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText(null);
+                    alert.setTitle("Error");
+                    alert.setContentText("Ya has seleccionado tus asientos.");
+                    alert.showAndWait();
                 }
             } else {
                 System.out.println("El asiento " + asiento + " ya está reservado.");
@@ -77,14 +94,14 @@ public class Asientos {
         return new ArrayList<>(asientosReservados);
     }
 
+        public List<String> getAsientosSeleccionados() {
+        return asientosR;
+    }
+    
+
+    public void irAComprar(Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos) {
+        cine.mostrarBoletoFinal(pelicula, horario, sala1, cantidadBoletos);
+    }
 
 }
- /*    private void reservarAsiento(String asiento) {
-        // Lógica para reservar el asiento
-        System.out.println("Asiento reservado: " + asiento);
 
-        // Cerrar la ventana actual
-        Stage actualStage = (Stage) cine.getPrimaryStage();
-        actualStage.close();
-    }
-}*/

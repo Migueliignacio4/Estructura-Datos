@@ -18,24 +18,33 @@ public class Cine { //Main Clase, un panel de control. Aquí se crearon metodos 
         pantallaPrincipal.mostrar();
     }
 
-    public void mostrarHorarios(Pelicula pelicula){
-        Horarios pantallaHorarios = new Horarios(this, pelicula);
+
+    public void mostrarHorarios(Pelicula pelicula, Sala sala1){
+        Horarios pantallaHorarios = new Horarios(this, pelicula, sala1);
         pantallaHorarios.mostrar();
     }
 
-    public void mostrarBoletos(Pelicula pelicula, String horario) {
-        Boletos pantallaBoletos = new Boletos(this, pelicula, horario);
+    public void mostrarBoletos(Pelicula pelicula, String horario, Sala sala1) {
+        Boletos pantallaBoletos = new Boletos(this, pelicula, horario, sala1);
         pantallaBoletos.mostrar();
     }
 
-    public void mostrarAsientos(String horario, int cantidadBoletos) {
-        Asientos pantallaSeleccionAsientos = new Asientos(this, horario, cantidadBoletos);
+    public void mostrarAsientos(Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos) {
+        Asientos pantallaSeleccionAsientos = new Asientos(this, pelicula, horario, sala1, cantidadBoletos);
         pantallaSeleccionAsientos.mostrar();
+    }
+
+    public void mostrarBoletoFinal(Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos){
+        BoletoFinal pantallaBoletoFinal = new BoletoFinal(this, pelicula, horario, sala1, cantidadBoletos);
+        pantallaBoletoFinal.mostrar();
     }
 
 
     public Stage getPrimaryStage() {
         return primeryStage;
     }
+
+
+    
 }
 
