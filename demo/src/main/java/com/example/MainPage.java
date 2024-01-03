@@ -1,5 +1,6 @@
 package com.example;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,21 +19,22 @@ public class MainPage {
     public MainPage(Cine cine) {
         this.cine = cine;
     }
-            //Su nombre lo dice, Página Principal, en una página real de cine seria como una cartelera básicamente. Cada pelicula creada es un botón y al darle click comprarás un boleto para esa película.
+    //Su nombre lo dice, Página Principal, en una página real de cine seria como una cartelera básicamente. Cada pelicula creada es un botón y al darle click comprarás un boleto para esa película.
     public void mostrar() {
         Stage stage = new Stage();
         stage.setTitle("Pantalla Principal");
         
-
+        //Use GridPane para posicionar y centrar las peliculas y titulo.
         GridPane layout = new GridPane();
-        layout.setVgap(4);
-        layout.setHgap(4);
+        layout.setVgap(10);
+        layout.setHgap(10);
 
-        Label lblTitulo = new Label("CINEMAPM — CARTELERA");
-        lblTitulo.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        Label lblTitulo = new Label("     |CINEMAPM|");
+        lblTitulo.setFont(Font.font("Arial", FontWeight.BOLD, 24)); //Esto es para cambiar la font, size y ponerle Bold osea negritas al titulo.
 
+        //CREACIÓN DE PELÍCULAS
         Pelicula rapunzel = new Pelicula("Rapunzel", 84);
-        Pelicula ualgosLand = new Pelicula("UalgosLand", 120);
+        Pelicula ulagosLand = new Pelicula("UalgosLand", 120);
         Pelicula shrek = new Pelicula("Shrek", 74);
 
         //CARGAR IMAGENES
@@ -50,21 +52,21 @@ public class MainPage {
         viewUlagos.setFitWidth(200);
         viewUlagos.setFitHeight(300);
 
-        //BOTONES
-
-
+        //Botón de registro de venta
         Button btnRegistroVentas = new Button("Registro de Ventas");
         btnRegistroVentas.setOnAction(e -> mostrarRegistroVentas());
+        layout.setAlignment(Pos.CENTER);
 
+        //BOTONES DE PELÍCULAS
         Button btnRapunzel = new Button();
         btnRapunzel.setGraphic(viewRapuzel);
-        btnRapunzel.setOnAction(e -> {mostrarSalas(rapunzel);
+        btnRapunzel.setOnAction(e -> {mostrarSalas(rapunzel); //te lleva al metodo que te muestra las salas.
         stage.close();
         });
         
         Button btnUalgosLand = new Button();
         btnUalgosLand.setGraphic(viewUlagos);
-        btnUalgosLand.setOnAction(e -> {mostrarSalas(ualgosLand);
+        btnUalgosLand.setOnAction(e -> {mostrarSalas(ulagosLand);
         stage.close();
         });
 
@@ -79,16 +81,16 @@ public class MainPage {
         layout.add(btnRapunzel, 1 , 2);
         layout.add(btnShrek, 2, 2);
         layout.add(btnUalgosLand, 3, 2);
-        layout.add(btnRegistroVentas, 4, 4);
+        layout.add(btnRegistroVentas, 2, 5);
 
-        Scene scene = new Scene(layout, 1300, 800);
+        Scene scene = new Scene(layout, 700, 700);
         stage.setScene(scene);
         stage.show();
     } 
 
 
-    public void mostrarSalas(Pelicula pelicula) {
-        // Salas
+    public void mostrarSalas(Pelicula pelicula) { //Metodo que te abre el interfáz donde están las salas, se crea un boton para cada sala.
+        // Salas //Como se dijo que se creara 1 única sala, solo creé 1.
         Stage salaStage = new Stage();
         Sala sala1 = new Sala("1");
     
@@ -106,12 +108,12 @@ public class MainPage {
         salaStage.show();
     }
 
-    public void mostrarHorariosVentana(Pelicula pelicula, Sala sala1) {
+    public void mostrarHorariosVentana(Pelicula pelicula, Sala sala1) { //Metodo que te muestra lso horarios, la cual se pide arriva en el metodo mostrarSalas.
 
         cine.mostrarHorarios(pelicula, sala1);
     }
-
-    public void mostrarRegistroVentas(){
+//Esto es por si clickeas el botón de ir al registro de ventas
+    public void mostrarRegistroVentas(){ //Esto es por si clickeas el botón de ir al registro de ventas.
         RegistroVentas registroVentasPage = new RegistroVentas();
         registroVentasPage.mostrar();
     }

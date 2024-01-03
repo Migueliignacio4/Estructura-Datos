@@ -24,7 +24,7 @@ public class Horarios {
 
         VBox layout = new VBox(10);
 
-        // Agregar botones para los horarios disponibles
+        // Creacion de botones para cada horario.
         Button btnHorario1 = new Button("Horario 1       12:35");
         btnHorario1.setOnAction(e -> {cine.mostrarBoletos(pelicula, "12:35", sala1);
         stage.close();});
