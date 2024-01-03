@@ -1,6 +1,7 @@
 # POO-Proyecto-JavaFX
 
-#Integrantes:
+# Integrantes:
+-
 Marcelo Villaroel
 Cristofer Leiva
 Tomas Serrudo
