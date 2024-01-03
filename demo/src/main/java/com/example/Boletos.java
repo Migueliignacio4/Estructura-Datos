@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.List;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -15,7 +13,6 @@ public class Boletos {
     private Cine cine;
     private Pelicula pelicula;
     private String horario;
-    private Stage stage;
     private Sala sala1;
 
     public Boletos(Cine cine, Pelicula pelicula, String horario, Sala sala1) {
@@ -25,9 +22,6 @@ public class Boletos {
         this.sala1 = sala1;
     }
 
-    public Stage getStage(){
-        return stage;
-    }
             //Metodo que muestra la interfáz de los boletos, donde aparecen los labels y botones.
     public void mostrar() {
         Stage stage = new Stage();
@@ -79,7 +73,11 @@ public class Boletos {
 
         } catch (NumberFormatException e) {
             
-            System.out.println("Por favor, ingresa un número válido para la cantidad de boletos.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.setContentText("Por favor, ingrese un número válido para la cantidad de boletos.");
+            alert.showAndWait();
         }
     }       //Metodo que se utiliza para llamar al metodo mostrarAsientos de la clase Cine, el cual está conectado con un metodo de la clase Asientos.
     private void seleccionarAsientos(String cantidadBoletos){

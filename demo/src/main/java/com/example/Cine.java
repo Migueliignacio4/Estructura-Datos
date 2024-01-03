@@ -1,15 +1,16 @@
 package com.example;
 
-import java.util.Set;
 
 import javafx.stage.Stage;
 
 public class Cine { //Main Clase, un panel de control. Aquí se crearon metodos para inicializar funciones y/o metodos de las distintas clases.
     
     private Stage primeryStage;
+    
 
     public Cine(Stage primeryStage){
         this.primeryStage = primeryStage;
+        
     }
 
 
@@ -34,8 +35,8 @@ public class Cine { //Main Clase, un panel de control. Aquí se crearon metodos 
         pantallaSeleccionAsientos.mostrar();
     }
 
-    public void mostrarBoletoFinal(Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos){
-        BoletoFinal pantallaBoletoFinal = new BoletoFinal(this, pelicula, horario, sala1, cantidadBoletos);
+    public void mostrarBoletoFinal(Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos, String[] asientosR){
+        BoletoFinal pantallaBoletoFinal = new BoletoFinal(this, pelicula, horario, sala1, cantidadBoletos, asientosR);
         pantallaBoletoFinal.mostrar();
     }
 

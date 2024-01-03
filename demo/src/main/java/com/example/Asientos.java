@@ -5,10 +5,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Asientos {
@@ -19,7 +17,6 @@ public class Asientos {
     private int cantidadBoletos;
     private Set<String> asientosReservados;
     private int asientosReservadosCount;
-    private List<String> asientosR;
     private Cine cine;
 
     public Asientos(Cine cine, Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos) {
@@ -30,28 +27,28 @@ public class Asientos {
         this.cine = cine;
         this.asientosReservados = new HashSet<>();
         this.asientosReservadosCount = 0;
-        this.asientosR = new ArrayList<>();
     }
 
     public void mostrar() {
         Stage stage = new Stage();
         stage.setTitle("Selección de Asientos - " + horario);
-
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);
         gridPane.setHgap(10);
 
-        // Agregar botones para los asientos disponibles
+        // Agrega botones para los asientos 
         for (int i = 1; i <= 5; i++) {
+            char[] alfa = {'A', 'B', 'C', 'D', 'E'};
             for (int j = 1; j <= 5; j++) {
-                Button btnAsiento = new Button("A" + i + "-" + j);
-                btnAsiento.setOnAction(e -> reservarAsiento(btnAsiento.getText(), stage));
+                Button btnAsiento = new Button(alfa[i - 1] + "" + i + "-" + j);
+
+                btnAsiento.setOnAction(e -> reservarAsiento(btnAsiento.getText(), btnAsiento, stage));
                 gridPane.add(btnAsiento, j, i);
             }
         }
 
-        Button btnIrAComprar = new Button("Ir a comprar");
-        btnIrAComprar.setOnAction(e -> {irAComprar(pelicula, horario, sala1, cantidadBoletos);
+        Button btnIrAComprar = new Button("Ir a pagar");
+        btnIrAComprar.setOnAction(e -> {irAComprar(pelicula, horario, sala1, cantidadBoletos, getAsientosReservadosArray());
         stage.close();
         });
         gridPane.add(btnIrAComprar, 0, 6);
@@ -61,46 +58,43 @@ public class Asientos {
         stage.show();
     }
 
-    public Set<String> getAsientosReservados(){
-        return asientosReservados;
-    }
 
-    private void reservarAsiento(String asiento, Stage stage) {
+    private void reservarAsiento(String asiento, Button btnAsiento, Stage stage) {
         if (asientosReservadosCount < cantidadBoletos) { //Aquí se verifica si han reservado todos los asientos permitidos. (Corresponden a la cantidad de boletos que seleccionó el cliente.)
             if (!asientosReservados.contains(asiento)) { //Aquí se verifica si el asiento está ocupado/reservado.
-                // Lógica para reservar el asiento
                 asientosReservados.add(asiento);
                 asientosReservadosCount++;
 
-                System.out.println("Asiento reservado: " + asiento);
+                String[] asientosR = new String[asientosReservados.size()];
+                asientosR = asientosReservados.toArray(asientosR);
 
-                // Esto sirve para cerrar la ventana una vez se hayan escogido todos los asientos.
-                if (asientosReservadosCount == cantidadBoletos) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText(null);
-                    alert.setTitle("Error");
-                    alert.setContentText("Ya has seleccionado tus asientos.");
-                    alert.showAndWait();
-                }
+                System.out.println("Asiento reservado: " + asiento);
+                System.out.println("Asientos reservados: " + Arrays.toString(asientosR));
+
+
+                btnAsiento.setStyle("-fx-background-color: RED;");
             } else {
+
                 System.out.println("El asiento " + asiento + " ya está reservado.");
             }
         } else {
-            System.out.println("Ya has reservado la cantidad máxima de asientos permitidos.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Ya has seleccionado tus asientos");
+            alert.setContentText("Tus asientos ya han sido seleccionados, no puedes seleccionar más debido a que no compraste más boletos.");
+            alert.showAndWait();
+            
         }
+
     }
 
-    public List<String> getAsientosReservadosList() {
-        return new ArrayList<>(asientosReservados);
+    private String[] getAsientosReservadosArray() {
+        return asientosReservados.toArray(new String[0]);
     }
 
-        public List<String> getAsientosSeleccionados() {
-        return asientosR;
-    }
-    
 
-    public void irAComprar(Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos) {
-        cine.mostrarBoletoFinal(pelicula, horario, sala1, cantidadBoletos);
+    public void irAComprar(Pelicula pelicula, String horario, Sala sala1, int cantidadBoletos, String[] asientosR) {
+        cine.mostrarBoletoFinal(pelicula, horario, sala1, cantidadBoletos, asientosR);
     }
 
 }
