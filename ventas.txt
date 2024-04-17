@@ -1,2 +1,0 @@
-Pelicula: UalgosLand, Horario: 12:35, Sala: 1, Cantidad de Boletos: 3, Precio Total: $9000.0
-Pelicula: UalgosLand, Horario: 12:35, Sala: 1, Cantidad de Boletos: 2, Precio Total: $6000.0
